@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.scss";
 import { Card } from "./Card";
 
-const images = [
+let images = [
   { path: "./assets/dog0.jpg", name: "John Doe" },
   { path: "./assets/dog1.jpg", name: "Bob Doe" },
   { path: "./assets/dog2.jpg", name: "Alex Doe" },
@@ -14,19 +14,24 @@ const images = [
 ];
 
 function App() {
-  const data = new Set();
-  const [status, setStatus] = useState("game");
+  const [data, setData] = useState([]);
+  const [order, setOrder] = useState(images);
 
   const updateData = (newData) => {
-    if (data.has(newData)) {
+    if (data.includes(newData)) {
       console.log("game over");
-      setStatus("over");
-      data.clear();
+      setData([]);
     } else {
-      data.add(newData);
+      setData(data.concat(newData));
     }
-    console.log(data);
+    images = shuffled(images);
+    setOrder(images);
   };
+
+  useEffect(() => {
+    images = shuffled(images);
+    setOrder(images);
+  }, []);
 
   return (
     <div className="App text-center bg-secondary bg-gradient min-vh-100">
@@ -35,16 +40,32 @@ function App() {
       </div>
       <div className="container">
         <div className="row justify-content-center gx-3 gy-3 py-3">
-          {images.map((obj) => {
+          {order.map((obj) => {
             return (
-              <Card image={obj.path} name={obj.name} updateData={updateData} />
+              <Card
+                image={obj.path}
+                name={obj.name}
+                updateData={updateData}
+                key={obj.name}
+              />
             );
           })}
         </div>
       </div>
-      <button className="btn btn-dark">nice button</button>
+      <button className="btn btn-dark" onClick={() => console.log(data)}>
+        nice button
+      </button>
     </div>
   );
+}
+
+function shuffled(arr) {
+  const a = [...arr];
+  for (let i = 0; i < arr.length; i++) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 export default App;
