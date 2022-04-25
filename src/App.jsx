@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./App.scss";
+import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import { Card } from "./Card";
+import { ScoreBoard } from "./ScoreBoard";
+import { StaticModal } from "./StaticModal";
 
 let images = [
   { path: "./assets/dog0.jpg", name: "John Doe" },
@@ -35,7 +38,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App text-center bg-secondary bg-gradient min-vh-100">
+    <div className="App text-center bg-light bg-gradient min-vh-100">
       <div className="display-5 bg-dark bg-gradient text-light py-3">
         Memory Game
       </div>
@@ -53,26 +56,13 @@ function App() {
           })}
         </div>
       </div>
-      <button className="btn btn-dark mb-5" onClick={() => console.log(data)}>
-        nice button
-      </button>
-      <ScoreBoard score={score} />
-    </div>
-  );
-}
-
-function ScoreBoard({ score }) {
-  const [best, setBest] = useState(0);
-
-  useEffect(() => {
-    setBest(Math.max(best, score));
-  }, [best, score]);
-
-  return (
-    <div className="fixed-bottom bg-dark bg-gradient text-light">
-      <div>
-        Score: {score}, Best: {best}
+      <div className="d-flex justify-content-center pb-5 gap-2">
+        <button className="btn btn-dark" onClick={() => console.log(data)}>
+          nice button
+        </button>
+        <StaticModal />
       </div>
+      <ScoreBoard score={score} />
     </div>
   );
 }

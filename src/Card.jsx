@@ -6,7 +6,7 @@ export function Card({ image, name, updateData }) {
   return (
     <div className="col-lg-3 col-md-4 col-sm-6">
       <button
-        className="btn btn-danger bg-gradient text-light border border-2 rounded-3 p-2"
+        className="btn btn-light bg-gradient border border-2 rounded-3 p-2 shadow"
         onClick={handleClick}
       >
         <img
