@@ -10,6 +10,7 @@ export function Card({ image = imgPlaceholder, name = namePlaceholder }) {
           alt={name}
           className="img-fluid img-thumbnail"
           width={300}
+          height={200}
         />
         <div>{name}</div>
       </div>
