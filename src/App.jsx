@@ -15,22 +15,23 @@ let images = [
 
 function App() {
   const [data, setData] = useState([]);
+  const [score, setScore] = useState(0);
   const [order, setOrder] = useState(images);
 
   const updateData = (newData) => {
     if (data.includes(newData)) {
       console.log("game over");
       setData([]);
+      setScore(0);
     } else {
       setData(data.concat(newData));
+      setScore(score + 1);
     }
-    images = shuffled(images);
-    setOrder(images);
+    setOrder(shuffled(images));
   };
 
   useEffect(() => {
-    images = shuffled(images);
-    setOrder(images);
+    setOrder(shuffled(images));
   }, []);
 
   return (
@@ -52,9 +53,26 @@ function App() {
           })}
         </div>
       </div>
-      <button className="btn btn-dark" onClick={() => console.log(data)}>
+      <button className="btn btn-dark mb-5" onClick={() => console.log(data)}>
         nice button
       </button>
+      <ScoreBoard score={score} />
+    </div>
+  );
+}
+
+function ScoreBoard({ score }) {
+  const [best, setBest] = useState(0);
+
+  useEffect(() => {
+    setBest(Math.max(best, score));
+  }, [best, score]);
+
+  return (
+    <div className="fixed-bottom bg-dark bg-gradient text-light">
+      <div>
+        Score: {score}, Best: {best}
+      </div>
     </div>
   );
 }
