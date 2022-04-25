@@ -1,4 +1,4 @@
-// import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.scss";
 import { Card } from "./Card";
 
@@ -14,6 +14,20 @@ const images = [
 ];
 
 function App() {
+  const data = new Set();
+  const [status, setStatus] = useState("game");
+
+  const updateData = (newData) => {
+    if (data.has(newData)) {
+      console.log("game over");
+      setStatus("over");
+      data.clear();
+    } else {
+      data.add(newData);
+    }
+    console.log(data);
+  };
+
   return (
     <div className="App text-center bg-secondary bg-gradient min-vh-100">
       <div className="display-5 bg-dark bg-gradient text-light py-3">
@@ -22,7 +36,9 @@ function App() {
       <div className="container">
         <div className="row justify-content-center gx-3 gy-3 py-3">
           {images.map((obj) => {
-            return <Card image={obj.path} name={obj.name} />;
+            return (
+              <Card image={obj.path} name={obj.name} updateData={updateData} />
+            );
           })}
         </div>
       </div>
